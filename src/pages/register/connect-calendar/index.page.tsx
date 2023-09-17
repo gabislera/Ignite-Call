@@ -10,7 +10,7 @@ export default function Register() {
   const router = useRouter()
   const session = useSession()
 
-  const hasAuthError = !!router.query.error
+  const hasAuthError = !!router.query.error // verifica se existe erro nas permissões do calendar '/register/connect-calendar/?error=permissions'
   const isSignedIn = session.status === 'authenticated'
 
   async function handleConnectCalendar() {

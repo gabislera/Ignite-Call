@@ -20,7 +20,7 @@ export function buildNextAuthOptions(
             response_type: 'code',
             scope:
               'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/calendar',
-          },
+          }, // escopo de autorizações do google
         },
         profile(profile: GoogleProfile) {
           return {
@@ -30,7 +30,7 @@ export function buildNextAuthOptions(
             email: profile.email,
             avatar_url: profile.picture,
           }
-        },
+        }, // mapeia o usuario do google e retorna os dados no formato que usamos no banco de dados
       }),
       // ...add more providers here
     ],
@@ -42,12 +42,12 @@ export function buildNextAuthOptions(
           return '/register/connect-calendar/?error=permissions'
         }
         return true
-      },
+      }, // após a autenticação, verifica se o usuário concedeu as permissões e redireciona para a mesma pagina porém com o erro no parâmetro
       async session({ session, user }) {
         return {
           ...session,
           user,
-        }
+        } // é chamado após autenticação bem sucedida e adiciona informações do usuario à sessão
       },
     },
   }

@@ -32,7 +32,7 @@ export function ClaimUsernameForm() {
   async function handleClaimUsername(data: ClaimUsernameFormData) {
     const { username } = data
 
-    await router.push(`/register?username=${username}`)
+    await router.push(`/register?username=${username}`) // envia o user na url para recuperar na outra pagina
   }
 
   return (
