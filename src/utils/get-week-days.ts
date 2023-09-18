@@ -1,7 +1,11 @@
 // Esta função retorna um array com os nomes dos dias da semana em português,
 // começando a partir de segunda-feira.
 
-export function getWeekDays() {
+interface GetWeekDaysParams {
+  short?: boolean
+}
+
+export function getWeekDays({ short = false }: GetWeekDaysParams = {}) {
   // Cria um objeto de formatação de data usando a localização 'pt-BR' (português do Brasil)
   // e define o formato para retornar o nome completo do dia da semana.
   const formatter = new Intl.DateTimeFormat('pt-BR', { weekday: 'long' })
@@ -12,9 +16,10 @@ export function getWeekDays() {
     .map((day) => formatter.format(new Date(Date.UTC(2023, 7, day))))
     .map((weekDay) => {
       // Transforma a primeira letra de cada nome do dia em maiúscula e mantém o restante do nome.
-      return weekDay
-        .substring(0, 1)
-        .toLocaleUpperCase()
-        .concat(weekDay.substring(1))
+      if (short) {
+        return weekDay.substring(0, 3).toUpperCase()
+      }
+
+      return weekDay.substring(0, 1).toUpperCase().concat(weekDay.substring(1))
     })
 }
