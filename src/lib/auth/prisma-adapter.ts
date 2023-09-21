@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { NextApiRequest, NextApiResponse, NextPageContext } from 'next'
 import { Adapter } from 'next-auth/adapters'
-import { parseCookies, destroyCookie } from 'nookies'
 import { prisma } from '../prisma'
+import { parseCookies, destroyCookie } from 'nookies'
+import { NextApiRequest, NextApiResponse, NextPageContext } from 'next'
 
 export function PrismaAdapter(
   req: NextApiRequest | NextPageContext['req'],
@@ -13,7 +13,7 @@ export function PrismaAdapter(
       const { '@ignitecall:userId': userIdOnCookies } = parseCookies({ req })
 
       if (!userIdOnCookies) {
-        throw new Error('User ID not found on cookies.')
+        throw new Error('User Id not found in cookies.')
       }
 
       const prismaUser = await prisma.user.update({
@@ -81,7 +81,6 @@ export function PrismaAdapter(
         avatar_url: user.avatar_url!,
       }
     },
-
     async getUserByAccount({ providerAccountId, provider }) {
       const account = await prisma.account.findUnique({
         where: {
@@ -155,8 +154,8 @@ export function PrismaAdapter(
       await prisma.session.create({
         data: {
           user_id: userId,
-          expires,
           session_token: sessionToken,
+          expires,
         },
       })
 
@@ -200,7 +199,7 @@ export function PrismaAdapter(
       }
     },
 
-    async updateSession({ sessionToken, userId, expires }) {
+    async updateSession({ sessionToken, expires, userId }) {
       const prismaSession = await prisma.session.update({
         where: {
           session_token: sessionToken,
